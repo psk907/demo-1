@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sample Page — Demo</title>
+    <style>
+        :root {
+            --bg: #f7f9fc;
+            --card: #ffffff;
+            --accent: #0366d6;
+            --muted: #6b7280;
+            --radius: 10px;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        html,body { height:100%; margin:0; background:var(--bg); color:#0f1724; }
+        .container {
+            max-width:900px;
+            margin:40px auto;
+            padding:20px;
+            background:var(--card);
+            border-radius:var(--radius);
+            box-shadow:0 6px 24px rgba(8,15,30,0.06);
+        }
+        header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+        h1 { margin:0; font-size:1.25rem; }
+        nav a { color:var(--accent); text-decoration:none; margin-left:12px; font-weight:600; }
+        main { margin-top:18px; display:grid; gap:18px; }
+        .hero { padding:16px; border-radius:8px; background:linear-gradient(90deg,#f0f6ff, #ffffff); }
+        .grid { display:grid; grid-template-columns:1fr 280px; gap:18px; }
+        .card { padding:14px; background:#fff; border-radius:8px; border:1px solid rgba(15,23,36,0.04); }
+        .muted { color:var(--muted); font-size:0.95rem; }
+        footer { margin-top:18px; font-size:0.9rem; color:var(--muted); text-align:center; }
+        button { background:var(--accent); color:white; border:0; padding:8px 12px; border-radius:8px; cursor:pointer; }
+        input, textarea { width:100%; padding:8px; border-radius:6px; border:1px solid #e6e9ef; }
+        @media (max-width:740px) {
+            .grid { grid-template-columns:1fr; }
+            header { flex-direction:column; align-items:flex-start; gap:8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" role="document">
+        <header>
+            <div>
+                <h1>Demo: Sample HTML Page</h1>
+                <div class="muted">A minimal, responsive starter page</div>
+            </div>
+            <nav aria-label="Primary">
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero card" id="about" aria-labelledby="about-heading">
+                <h2 id="about-heading">Welcome</h2>
+                <p class="muted">This page shows a simple layout, accessible markup and a small interactive example.</p>
+            </section>
+
+            <div class="grid">
+                <section class="card" aria-labelledby="todo-heading">
+                    <h3 id="todo-heading">Interactive: Add an item</h3>
+                    <form id="todo-form">
+                        <label class="muted" for="item">New item</label>
+                        <input id="item" name="item" type="text" placeholder="Type something..." required />
+                        <div style="margin-top:10px; display:flex; gap:8px;">
+                            <button type="submit">Add</button>
+                            <button type="button" id="clear">Clear</button>
+                        </div>
+                    </form>
+
+                    <ul id="list" style="margin-top:12px; padding-left:18px;"></ul>
+                </section>
+
+                <aside class="card" id="contact" aria-labelledby="contact-heading">
+                    <h3 id="contact-heading">Contact</h3>
+                    <p class="muted">Use this demo as a starting point for your project.</p>
+
+                    <form id="feedback" style="margin-top:10px;">
+                        <label class="muted" for="email">Email</label>
+                        <input id="email" type="email" placeholder="you@example.com" />
+                        <label class="muted" for="message" style="margin-top:8px; display:block;">Message</label>
+                        <textarea id="message" rows="3" placeholder="Short message"></textarea>
+                        <div style="margin-top:8px; text-align:right;">
+                            <button type="submit">Send</button>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+        </main>
+
+        <footer>
+            © <span id="year"></span> Demo — Built with HTML, CSS & JavaScript
+        </footer>
+    </div>
+
+    <script>
+        // Small interactive behavior
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const form = document.getElementById('todo-form');
+        const list = document.getElementById('list');
+        const clearBtn = document.getElementById('clear');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const input = document.getElementById('item');
+            const val = input.value.trim();
+            if (!val) return;
+            const li = document.createElement('li');
+            li.textContent = val;
+            li.style.marginBottom = '6px';
+            list.appendChild(li);
+            input.value = '';
+            input.focus();
+        });
+
+        clearBtn.addEventListener('click', () => list.innerHTML = '');
+
+        // Basic feedback form behavior (no network)
+        document.getElementById('feedback').addEventListener('submit', e => {
+            e.preventDefault();
+            alert('Thanks — this is a demo page, feedback not submitted.');
+        });
+    </script>
+</body>
+</html>
